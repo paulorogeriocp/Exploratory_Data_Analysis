@@ -73,11 +73,21 @@ if uploaded_file:
         else:
             column_to_plot = st.selectbox('Select the column for the plot:', columns_to_process)
             fig, ax= plt.subplots(figsize=(9, 3))
-            n_bins = st.slider('Select the column for the plot:', 1, int(new_df[column_to_plot].mean()/3), int(new_df[column_to_plot].mean()/9))
+            n_bins = st.slider('Select the number of bins:', 1, int(new_df[column_to_plot].mean()/3), int(new_df[column_to_plot].mean()/9))
             plot_kde = st.checkbox('Plot the Kernel Density Estimate (KDE)?')   
             sns.histplot(data=new_df, x=column_to_plot, binwidth=n_bins, alpha=0.6, kde = plot_kde)
             st.pyplot(fig)
 
+            
+    ########## Fifth step - show correlations ##########
+
+    #Show correlations among the variables
+    st.header("5) Pairwise correlations among the columns:")
+    if columns_to_process:
+        df_corr=df[columns_to_process].corr()
+        fig2, ax2= plt.subplots(figsize=(6, 2))
+        sns.heatmap(df_corr, ax=ax2, annot=True)
+        st.pyplot(fig2)
                
     
     
